@@ -1,0 +1,200 @@
+<main class="generator">
+  <section class="controls">
+    <label>
+      Rows :
+      <input class="rows" type="number" min="0" value="1">
+    </label>
+    <label>
+      Columns :
+      <input class="columns" type="number" min="0" value="1">
+    </label>
+  </section>
+  <button class="button">Create table</button>
+</main>
+<table class="table" border ="0" cellpadding="" cellspacing=""></table>
+<main class="table-placeholder">
+  <div class="table-placeholder__row">
+    <div class="table-placeholder__item"></div>
+    <div class="table-placeholder__item"></div>
+    <div class="table-placeholder__item"></div>
+  </div>
+    <div class="table-placeholder__row">
+    <div class="table-placeholder__item"></div>
+    <div class="table-placeholder__item"></div>
+    <div class="table-placeholder__item"></div>
+  </div>
+    <div class="table-placeholder__row">
+    <div class="table-placeholder__item"></div>
+    <div class="table-placeholder__item"></div>
+    <div class="table-placeholder__item"></div>
+  </div>
+  <div class="table-placeholder__row">
+    <div class="table-placeholder__item"></div>
+    <div class="table-placeholder__item"></div>
+    <div class="table-placeholder__item"></div>
+  </div>
+  <style>
+    body {
+  font-family: 'Verdana';
+}
+
+.generator {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+}
+
+.controls {
+  display: block;
+}
+
+table {
+  margin: 20px auto; padding: 0;
+  background-color: #332F4A;
+  border: none;
+  border-radius: 5px;
+}
+
+tr {
+  background-color: #fff8e5;
+}
+
+th {
+  margin: 5px;
+  padding: 15px;
+  color: #99dce7;
+  background-color: #365e80;
+}
+
+td {
+  padding: 15px;
+  text-align: center;
+}
+
+input {
+  width: 70px;
+  padding: 5px;
+  margin: 10px;
+  font-size: 16px;
+  background: #dfe7ff;
+  border: none;
+  border-radius: 5px;
+}
+
+.button {
+  margin-top: 15px;
+  padding: 9px 30px;
+  border: none;
+  border-radius: 5px;
+  background-color: #FDC754;
+  color: #630f71;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  outline: none;
+  transition: transform .1s cubic-bezier(0.77, 0.2, 0.05, 1);
+  
+  &:active {
+    transform: scale(0.97);
+  }
+  
+  &:focus {
+    border: 2px dashed black;
+  }
+}
+
+.table-placeholder {
+  max-width: 500px;
+  width: 100%;
+  margin: 20px auto;
+  
+  &.hidden {
+    display: none;
+  }
+  
+  &__row {
+    width: 100%;
+    display: flex;
+    
+    &:nth-child(1) {
+      .table-placeholder__item {
+        background: #e2ebf3;
+      }
+    }
+  }
+  
+  &__item {
+    max-width: 150px;
+    width: 100%;
+    height: 36px;
+    margin: 2px;
+    background: #f1f5f9;
+    border-radius: 5px;
+  }
+}
+  </style>
+  <script>
+    class Table {
+  constructor (tableSelector, rowsSelector, columnsSelector) {
+    this.rowsSelector = rowsSelector
+    this.columnsSelector = columnsSelector
+    this.tableObj = document.querySelector(tableSelector)
+  }
+
+  generate = () => {
+    let tableHTML = ''
+    const rowsNumber = parseInt(document.querySelector(this.rowsSelector).value) + 1
+    const columnsNumber = parseInt(document.querySelector(this.columnsSelector).value) + 1
+    
+
+    for (let i = 1; i <= rowsNumber; i++) {
+      let tr = '<tr>'
+      let td = ''
+
+      for (let j = 1; j <= columnsNumber; j++) {
+        const cellContent = i * j
+
+        if (i === 1 || j === 1) {
+          td = `<th class="header">${cellContent}</th>`;
+        }
+        else {
+          td = `<td>${cellContent}</td>`;
+        }
+
+        tr += td
+      }
+
+      tr += '</tr>'
+      tableHTML += tr
+    }
+    
+    this.tableObj.innerHTML = tableHTML
+  }
+  
+  hidePlaceholder () {
+    document.querySelector('.table-placeholder').classList.add('hidden')
+  }
+}
+
+const table = new Table('.table', '.rows', '.columns')
+
+document.querySelector('.button').addEventListener('click', () => {
+  table.generate()
+  table.hidePlaceholder()
+});
+
+const inputs = document.querySelectorAll('input');
+
+setInterval(() => {
+  inputs.forEach(input => {
+    const red = Math.random() * 255;
+    const green = Math.random() * 255;
+    const blue = Math.random() * 255;
+    
+    input.style.color = `rgb(${red}, ${green}, ${blue})`;
+  })
+}, 250);
+  </script>
+</main>
+ 
